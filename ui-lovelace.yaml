@@ -5,6 +5,8 @@ resources:
     type: module
   - url: /community_plugin/lovelace-home-feed-card/lovelace-home-feed-card.js
     type: js
+  - url: /community_plugin/mini-graph-card/mini-graph-card-bundle.js
+    type: module
 
 custom_header:
   compact_mode: true
@@ -29,12 +31,60 @@ views:
   - cards:
       - entity: weather.earth_ship
         type: weather-forecast
-      - detail: 2
-        entity: sensor.aeon_labs_zw100_multisensor_6_temperature
-        graph: line
-        hours_to_show: 48
-        name: Home Temperature
-        type: sensor
+
+#      - detail: 2
+#        entity: sensor.aeon_labs_zw100_multisensor_6_temperature
+#        graph: line
+#        hours_to_show: 48
+#        name: Home Temperature
+#        type: sensor
+
+      # https://github.com/kalkih/mini-graph-card
+
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
+            name: Temperature
+          - entity: sun.sun
+            color: gray
+            name: Night
+            show_line: false
+            show_points: false
+            show_legend: false
+            y_axis: secondary
+        name: Temperature
+        # hours_to_show: 168
+        # points_per_hour: 0.25
+        show:
+          labels: true
+          labels_secondary: true
+
+      # https://github.com/kalkih/mini-graph-card
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.aeon_labs_zw100_multisensor_6_relative_humidity
+            line_color: blue
+            line_width: 8
+            font_size: 75
+            name: Humidity
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.aeon_labs_zw100_multisensor_6_luminance
+            line_color: '#e74c3c'
+            line_width: 8
+            font_size: 75
+            name: Light
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.aeon_labs_zw100_multisensor_6_ultraviolet
+            line_color: var(--accent-color)
+            line_width: 8
+            font_size: 75
+            name: UV
+
       - aspect_ratio: 0%
         camera_image: camera.geovision_matrix
         camera_view: live
@@ -51,16 +101,18 @@ views:
           - zwave.unknown_node_6
         title: Z-Wave
         type: entities
-      - type: 'custom:home-feed-card'
+      - type: 'custom:home-feed-card' # https://github.com/gadgetchnnel/lovelace-home-feed-card
         title: Home Feed
-        show_empty: false
+        show_empty: true
         id_filter: ^home_feed_.*
         entities:
-          - entity: device_tracker.my_phone
-            name: Me
+          - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
+            # name: Me
             include_history: true
             max_history: 5
-            remove_repeats: false
+            # remove_repeats: false
+          - entity: weather.earth_ship
+          - entity: sun.sun
     path: default_view
     title: Home
 
