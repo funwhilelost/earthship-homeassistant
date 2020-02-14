@@ -146,6 +146,15 @@ views:
         - type: media-control
           entity: media_player.sunroom_speaker
 
+        - type: custom:mini-graph-card
+          entities:
+            - entity: sensor.c3000_100nas_gateway_kb_sec_received
+              name: kB Received
+            - entity: sensor.c3000_100nas_gateway_kb_sec_sent
+              name: kB Sent
+          name: Internet
+          hours_to_show: 48
+
   #      - entities:
   #          - zwave.aeon_labs_zw090_z_stick_gen5_us
   #          - zwave.aeon_labs_zw100_multisensor_6
