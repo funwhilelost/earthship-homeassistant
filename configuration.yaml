@@ -29,6 +29,19 @@ lovelace:
 tts:
   - platform: google_translate
 
+binary_sensor:
+  - platform: template
+    sensors:
+      sun_up:
+        friendly_name: "Sun is up"
+        value_template: >-
+          {{ state_attr('sun.sun', 'elevation')|float > 0 }}
+      kitchen_motion:
+        friendly_name: "Kitchen motion"
+        value_template: >-
+          {{ states('sensor.aeon_labs_zw100_multisensor_6_burglar')|float > 0 }}
+         
+sensor: !include sensors.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
