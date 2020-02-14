@@ -17,28 +17,40 @@
 
 - platform: template
   sensors:
-    kitchen_door_status:
-      value_template: '{% if states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3 %}
-        {% if states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3 == "on" %}
+    kitchen_door:
+      value_template: >-
+        {% if states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3.state == 'on' %}
           Open
-        {% else %}
+        {% elif states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3.state == 'off' %}
           Closed
-        {% endif %}
         {% else %}
-        n/a
-        {% endif %}'
-      friendly_name: 'Kitchen Door'
+          n/a
+        {% endif %}
+      icon_template: >
+        {% if states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3.state == 'on' %}
+          mdi:door-open
+        {% elif states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3.state == 'off' %}
+          mdi:door-closed
+        {% else %}
+          mdi:help
+        {% endif %} 
 
 - platform: template
   sensors:
-    porch_door_status:
-      value_template: '{% if states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4 %}
-        {% if states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4 == "on" %}
+    porch_door:
+      value_template: >-
+        {% if states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4.state == 'on' %}
           Open
-        {% else %}
+        {% elif states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4.state == 'off' %}
           Closed
-        {% endif %}
         {% else %}
-        n/a
-        {% endif %}'
-      friendly_name: 'Porch Door'
+          n/a
+        {% endif %}
+      icon_template: >
+        {% if states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4.state == 'on' %}
+          mdi:door-open
+        {% elif states.binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4.state == 'off' %}
+          mdi:door-closed
+        {% else %}
+          mdi:help
+        {% endif %} 

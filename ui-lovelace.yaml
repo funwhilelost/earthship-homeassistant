@@ -15,9 +15,32 @@ custom_header:
 #  footer_mode: true
 
 views:
-  - cards:
+  - path: default_view
+    title: Home
+    cards:
       - entity: weather.earth_ship
         type: weather-forecast
+
+      - type: 'custom:home-feed-card' # https://github.com/gadgetchnnel/lovelace-home-feed-card
+        title: Home Feed
+        show_empty: true
+        id_filter: ^home_feed_.*
+        max_item_count: 7
+        compact_mode: true
+        entities:
+          - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
+            # name: Me
+            include_history: false
+            # max_history: 5
+            remove_repeats: true
+            more_info_on_tap: true
+          - entity: weather.earth_ship
+          - entity: sun.sun
+          - entity: sensor.kitchen_door
+            name: Kitchen Door
+          - entity: sensor.porch_door
+            name: Porch Door
+          - entity: binary_sensor.kitchen_motion
 
       - type: entities
         title: Sun
@@ -68,8 +91,14 @@ views:
       - type: glance
         title: Doors
         entities:
-          - entity: binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3
-          - entity: binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4
+          - entity: sensor.kitchen_door
+            name: Kitchen Door
+            show_state: false
+            show_last_changed: true
+          - entity: sensor.porch_door
+            name: Porch Door
+            show_state: false
+            show_last_changed: true
 
       - type: custom:mini-graph-card
         entities:
@@ -136,28 +165,6 @@ views:
 #        title: Z-Wave
 #        type: entities
 
-      - type: 'custom:home-feed-card' # https://github.com/gadgetchnnel/lovelace-home-feed-card
-        title: Home Feed
-        show_empty: true
-        id_filter: ^home_feed_.*
-        max_item_count: 5
-        compact_mode: true
-        entities:
-          - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
-            # name: Me
-            include_history: false
-            # max_history: 5
-            remove_repeats: true
-            more_info_on_tap: true
-          - entity: weather.earth_ship
-          - entity: sun.sun
-          - entity: binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3
-            name: Kitchen Door
-          - entity: binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4
-            name: Porch Door
-    path: default_view
-    title: Home
-
   - path: other
     title: Other
     cards:
@@ -169,14 +176,17 @@ views:
         type: sensor
     badges:
       - entity: binary_sensor.updater
-      - entity: binary_sensor.aeon_labs_zw100_multisensor_6_sensor
+#      - entity: binary_sensor.aeon_labs_zw100_multisensor_6_sensor
       - entity: person.andy
-      - entity: sensor.plex_oahu
+#      - entity: sensor.plex_oahu
       - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
       - entity: sensor.aeon_labs_zw100_multisensor_6_luminance
-      - entity: sensor.aeon_labs_zw100_multisensor_6_relative_humidity
+      - entity: sensor.kitchen_door
+      - entity: sensor.porch_door
+      - entity: binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3
+      - entity: binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4
       - entity: sensor.aeon_labs_zw100_multisensor_6_ultraviolet
-      - entity: sensor.aeon_labs_zw100_multisensor_6_sourcenodeid
+#      - entity: sensor.aeon_labs_zw100_multisensor_6_sourcenodeid
       - entity: sensor.aeon_labs_zw100_multisensor_6_burglar
-      - entity: sensor.aeon_labs_zw100_multisensor_6_battery_level
+#      - entity: sensor.aeon_labs_zw100_multisensor_6_battery_level
       - entity: sun.sun
