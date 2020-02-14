@@ -17,153 +17,142 @@ custom_header:
 views:
   - path: default_view
     title: Home
+    panel: true
     cards:
-      - entity: weather.earth_ship
-        type: weather-forecast
-
-      - type: 'custom:home-feed-card' # https://github.com/gadgetchnnel/lovelace-home-feed-card
-        title: Home Feed
-        show_empty: true
-        id_filter: ^home_feed_.*
-        max_item_count: 7
-        compact_mode: true
-        entities:
-          - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
-            # name: Me
-            include_history: false
-            # max_history: 5
-            remove_repeats: true
-            more_info_on_tap: true
-          - entity: weather.earth_ship
-          - entity: sun.sun
-          - entity: sensor.kitchen_door
-            name: Kitchen Door
-          - entity: sensor.porch_door
-            name: Porch Door
-          - entity: binary_sensor.kitchen_motion
-
-      - type: entities
-        title: Sun
-        entities:
-          - entity: sun.sun
-          - entity: sensor.next_sunrise
-            name: "Next Sunrise:"
-            icon: mdi:weather-sunset-up
-          - entity: sensor.next_sunset
-            name: "Next Sunset:"
-            icon: mdi:weather-sunset-down
-          - entity: sensor.solar_angle
-            name: "Sun Angle:"
-            icon: mdi:angle-acute
-
-      # https://github.com/kalkih/mini-graph-card
-
-      - type: custom:mini-graph-card
-        entities:
-          - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
-            name: Temperature
-          - entity: sensor.sun_up
-            color: orange
-            name: Sun
-            show_line: false
-            show_points: false
-            show_legend: false
-            y_axis: secondary
-        name: Temperature
-        # hours_to_show: 168
-        # points_per_hour: 0.25
-        show:
-          labels: true
-          labels_secondary: true
-
-#      - type: entity-filter
-#        entities:
-#          - entity: binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3
-#            name: Kitchen
-#          - entity: binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4
-#            name: Porch
-#        state_filter:
-#          - "on"
-#        card:
-#          type: glance
-#          title: Open doors
-
-      - type: glance
-        title: Doors
-        entities:
-          - entity: sensor.kitchen_door
-            name: Kitchen Door
-            show_state: false
-            show_last_changed: true
-          - entity: sensor.porch_door
-            name: Porch Door
-            show_state: false
-            show_last_changed: true
-
-      - type: custom:mini-graph-card
-        entities:
-          - entity: binary_sensor.kitchen_motion
-            name: Living room
-            color: var(--accent-color)
-#          - entity: binary_sensor.corridor_motion
-#            name: Corridor
-        name: Motion last hour
-        hours_to_show: 1
-        points_per_hour: 60
-        update_interval: 30
-        aggregate_func: max
-        line_width: 2
-        smoothing: false
-        state_map:
-          - value: "off"
-            label: Clear
-          - value: "on"
-            label: Detected
-
-      # https://github.com/kalkih/mini-graph-card
-
-      - type: horizontal-stack
+      - type: vertical-stack
         cards:
-          - type: custom:mini-graph-card
-            entities:
-              - sensor.aeon_labs_zw100_multisensor_6_relative_humidity
-            line_color: blue
-            line_width: 8
-            font_size: 75
-            name: Humidity
-          - type: custom:mini-graph-card
-            entities:
-              - sensor.aeon_labs_zw100_multisensor_6_luminance
-            line_color: '#e74c3c'
-            line_width: 8
-            font_size: 75
-            name: Light
-          - type: custom:mini-graph-card
-            entities:
-              - sensor.aeon_labs_zw100_multisensor_6_ultraviolet
-            line_color: var(--accent-color)
-            line_width: 8
-            font_size: 75
-            name: UV
 
-      - aspect_ratio: 0%
-        camera_image: camera.geovision_matrix
-        camera_view: live
-        entities: []
-        entity: camera.geovision_matrix
-        image: 'https://www.home-assistant.io/images/merchandise/shirt-frontpage.png'
-        title: Security Cameras
-        type: picture-glance
-      - entity: media_player.plex_tv_un55nu8000
-        type: media-control
+        - aspect_ratio: 0%
+          camera_image: camera.geovision_matrix
+          camera_view: live
+          entities: []
+          entity: camera.geovision_matrix
+          image: 'https://www.home-assistant.io/images/merchandise/shirt-frontpage.png'
+          title: Security Cameras
+          type: picture-glance
 
-#      - entities:
-#          - zwave.aeon_labs_zw090_z_stick_gen5_us
-#          - zwave.aeon_labs_zw100_multisensor_6
-#          - zwave.unknown_node_6
-#          - zwave.unknown_node_7
-#        title: Z-Wave
-#        type: entities
+        - type: horizontal-stack
+          cards:
+          - type: glance
+            title: Doors
+            columns: 1
+            entities:
+              - entity: sensor.kitchen_door
+                name: Kitchen Door
+                show_state: false
+                show_last_changed: true
+              - entity: sensor.porch_door
+                name: Porch Door
+                show_state: false
+                show_last_changed: true
+
+          - type: 'custom:home-feed-card' # https://github.com/gadgetchnnel/lovelace-home-feed-card
+            title: Home Feed
+            show_empty: true
+            id_filter: ^home_feed_.*
+            max_item_count: 7
+            compact_mode: true
+            entities:
+              - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
+                # name: Me
+                include_history: false
+                # max_history: 5
+                remove_repeats: true
+                more_info_on_tap: true
+              - entity: weather.earth_ship
+              - entity: sun.sun
+              - entity: sensor.kitchen_door
+                name: Kitchen Door
+              - entity: sensor.porch_door
+                name: Porch Door
+              - entity: binary_sensor.kitchen_motion
+
+        - type: horizontal-stack
+          cards:
+          - entity: weather.earth_ship
+            type: weather-forecast
+          - type: entities
+            title: Sun
+            entities:
+              - entity: sun.sun
+              - entity: sensor.next_sunrise
+                name: "Next Sunrise:"
+                icon: mdi:weather-sunset-up
+              - entity: sensor.next_sunset
+                name: "Next Sunset:"
+                icon: mdi:weather-sunset-down
+              - entity: sensor.solar_angle
+                name: "Sun Angle:"
+                icon: mdi:angle-acute
+
+          - type: vertical-stack
+            cards:
+            # https://github.com/kalkih/mini-graph-card
+            - type: custom:mini-graph-card
+              entities:
+                - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
+                  name: Temperature
+              name: Temperature
+              hours_to_show: 72
+              # points_per_hour: 0.25
+              show:
+                labels: true
+                labels_secondary: true
+            - type: custom:mini-graph-card
+              entities:
+                - sensor.aeon_labs_zw100_multisensor_6_relative_humidity
+              line_color: blue
+              line_width: 8
+              font_size: 75
+              name: Humidity
+
+#        # https://github.com/kalkih/mini-graph-card
+#        - type: custom:mini-graph-card
+#          entities:
+#            - entity: binary_sensor.kitchen_motion
+#              name: Living room
+#              color: var(--accent-color)
+#          name: Motion last hour
+#          hours_to_show: 1
+#          points_per_hour: 60
+#          update_interval: 30
+#          aggregate_func: max
+#          line_width: 2
+#          smoothing: false
+#          state_map:
+#            - value: "off"
+#              label: Clear
+#            - value: "on"
+#              label: Detected
+
+#          - type: custom:mini-graph-card
+#            entities:
+#              - sensor.aeon_labs_zw100_multisensor_6_luminance
+#            line_color: '#e74c3c'
+#            line_width: 8
+#            font_size: 75
+#            name: Light
+#          - type: custom:mini-graph-card
+#            entities:
+#              - sensor.aeon_labs_zw100_multisensor_6_ultraviolet
+#            line_color: var(--accent-color)
+#            line_width: 8
+#            font_size: 75
+#            name: UV
+
+        - entity: media_player.plex_tv_un55nu8000
+          type: media-control
+
+        - type: media-control
+          entity: media_player.sunroom_speaker
+
+  #      - entities:
+  #          - zwave.aeon_labs_zw090_z_stick_gen5_us
+  #          - zwave.aeon_labs_zw100_multisensor_6
+  #          - zwave.unknown_node_6
+  #          - zwave.unknown_node_7
+  #        title: Z-Wave
+  #        type: entities
 
   - path: other
     title: Other
