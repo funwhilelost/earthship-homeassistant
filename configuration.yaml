@@ -48,14 +48,12 @@ binary_sensor:
           {{ states('sensor.aeon_labs_zw100_multisensor_6_burglar')|float > 0 }}
 
 homeassistant:
-  customize:
-    binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_3:
-      sensor_class: opening
-    binary_sensor.homeseer_technologies_unknown_type_0201_id_0008_sensor_4:
-      sensor_class: opening
+  customize: !include customize.yaml
+  packages: !include_dir_named packages
 
 sensor: !include sensors.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
