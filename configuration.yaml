@@ -29,6 +29,11 @@ lovelace:
 tts:
   - platform: google_translate
 
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    name: Earth Ship
+
 binary_sensor:
   - platform: template
     sensors:
