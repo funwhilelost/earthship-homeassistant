@@ -6,4 +6,5 @@ home-assistant.log
 home-assistant_v2.db
 pyozw.sqlite
 secrets.yaml
+zwcfg_*
 
