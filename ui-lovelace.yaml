@@ -69,42 +69,108 @@ views:
 
         - type: horizontal-stack
           cards:
-          - entity: weather.earth_ship
-            type: weather-forecast
-          - type: entities
-            title: Sun
-            entities:
-              - entity: sun.sun
-              - entity: sensor.next_sunrise
-                name: "Next Sunrise:"
-                icon: mdi:weather-sunset-up
-              - entity: sensor.next_sunset
-                name: "Next Sunset:"
-                icon: mdi:weather-sunset-down
-              - entity: sensor.solar_angle
-                name: "Sun Angle:"
-                icon: mdi:angle-acute
+          - type: vertical-stack
+            cards:
+            - entity: weather.earth_ship
+              type: weather-forecast
+            - type: custom:mini-graph-card
+              name: Local Barometer
+              hours_to_show: 48
+              entities:
+                - entity: sensor.local_barometric_pressure
+                  name: Barometric Pressure
+          - type: vertical-stack
+            cards:
+            - type: entities
+              title: Sun
+              show_header_toggle: false
+              entities:
+                - entity: sun.sun
+                - entity: sensor.next_sunrise
+                  name: "Next Sunrise:"
+                  icon: mdi:weather-sunset-up
+                - entity: sensor.next_sunset
+                  name: "Next Sunset:"
+                  icon: mdi:weather-sunset-down
+                - entity: sensor.solar_angle
+                  name: "Sun Angle:"
+                  icon: mdi:angle-acute
+            - type: custom:mini-graph-card
+              name: Outside Temperature
+              hours_to_show: 168
+              group_by: date
+              entities:
+                - entity: sensor.local_temperature
+                  aggregate_func: max
+                  name: Max
+                  color: #e74c3c
+                - entity: sensor.local_temperature
+                  aggregate_func: min
+                  name: Min
+                - entity: sensor.local_temperature
+                  aggregate_func: avg
+                  name: Avg
+                  color: green
 
           - type: vertical-stack
             cards:
             # https://github.com/kalkih/mini-graph-card
             - type: custom:mini-graph-card
+              lower_bound: 0
               entities:
                 - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
-                  name: Temperature
+                  name: Inside
+                  line_width: 8
+                  show_legend: false
+                - entity: sensor.local_temperature
+                  name: Outside
+                  line_width: 4
+                  show_legend: false
+              show:
+                # extrema: true
+                legend: false
               name: Temperature
               hours_to_show: 72
-              # points_per_hour: 0.25
+            - type: custom:mini-graph-card
+              lower_bound: 0
+              entities:
+                - entity: sensor.aeon_labs_zw100_multisensor_6_relative_humidity
+                  name: Inside
+                  show_legend: false
+                - entity: sensor.local_humidity
+                  name: Outside
+                  line_width: 4
+                  show_legend: false
               show:
                 labels: true
-                labels_secondary: true
-            - type: custom:mini-graph-card
-              entities:
-                - sensor.aeon_labs_zw100_multisensor_6_relative_humidity
-              line_color: blue
-              line_width: 8
-              font_size: 75
+                legend: false
               name: Humidity
+              hours_to_show: 72
+            - type: custom:mini-graph-card
+              name: Local Wind
+              lower_bound: 0
+              upper_bound: 30
+              lower_bound_secondary: 0
+              upper_bound_secondary: 360
+              hours_to_show: 48
+              entities:
+                - entity: sensor.local_wind_speed
+                  name: Wind Speed
+                - color: gray
+                  entity: sensor.local_wind_bearing
+                  name: Wind Angle
+                  show_line: false
+                  show_points: true
+                  show_legend: false
+                  y_axis: secondary
+              color_thresholds:
+                - value: 10
+                  color: "#aaffaa"
+                - value: 15
+                  color: "#33ff33"
+                - value: 22
+                  color: "#ff3333"
+
 
 #        # https://github.com/kalkih/mini-graph-card
 #        - type: custom:mini-graph-card

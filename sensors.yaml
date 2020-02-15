@@ -14,6 +14,26 @@
       friendly_name: "Sun angle"
       unit_of_measurement: 'degrees'
       value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+    local_wind_speed:
+      friendly_name: "Wind speed"
+      unit_of_measurement: 'mph'
+      value_template: "{{ state_attr('weather.earth_ship', 'wind_speed') }}"
+    local_wind_bearing:
+      friendly_name: "Wind bearing"
+      unit_of_measurement: 'degrees'
+      value_template: "{{ state_attr('weather.earth_ship', 'wind_bearing') }}"
+    local_temperature:
+      friendly_name: "Local temperature"
+      unit_of_measurement: '°F'
+      value_template: "{{ state_attr('weather.earth_ship', 'temperature') }}"
+    local_barometric_pressure:
+      friendly_name: "Local barometric pressure"
+      unit_of_measurement: 'mb'
+      value_template: "{{ state_attr('weather.earth_ship', 'pressure') }}"
+    local_humidity:
+      friendly_name: "Local humidity"
+      unit_of_measurement: '%'
+      value_template: "{{ state_attr('weather.earth_ship', 'humidity') }}"
 
 - platform: template
   sensors:
