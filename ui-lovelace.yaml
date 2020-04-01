@@ -253,12 +253,18 @@ views:
     title: Network
     badges: []
     cards:
-      - entities:
+      - type: entities
+        entities:
           - entity: binary_sensor.wan
           - entity: binary_sensor.gateway
         show_header_toggle: false
         title: Network
-        type: entities
+      - type: glance
+        entities:
+          - entity: sensor.uptime
+            name: Uptime
+        theme: default
+        title: Server
       - type: custom:mini-graph-card
         entities:
           - entity: sensor.c3000_100nas_gateway_kb_sec_received
@@ -267,4 +273,25 @@ views:
             name: kB Sent
         name: Internet
         hours_to_show: 48
-
+      - type: horizontal-stack
+        cards:
+        - entity: sensor.processor_use
+          max: 100
+          min: 0
+          name: CPU
+          severity:
+            green: 0
+            red: 90
+            yellow: 50
+          theme: default
+          type: gauge
+        - entity: sensor.memory_use_percent
+          max: 100
+          min: 0
+          name: Memory
+          severity:
+            green: 0
+            red: 90
+            yellow: 50
+          theme: default
+          type: gauge
