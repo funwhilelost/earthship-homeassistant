@@ -73,14 +73,6 @@ views:
             cards:
             - entity: weather.earth_ship
               type: weather-forecast
-            - type: custom:mini-graph-card
-              name: Local Barometer
-              hours_to_show: 48
-              entities:
-                - entity: sensor.local_barometric_pressure
-                  name: Barometric Pressure
-          - type: vertical-stack
-            cards:
             - type: entities
               title: Sun
               show_header_toggle: false
@@ -95,6 +87,17 @@ views:
                 - entity: sensor.solar_angle
                   name: "Sun Angle:"
                   icon: mdi:angle-acute
+          - type: vertical-stack
+            cards:
+            - type: custom:mini-graph-card
+              name: Local Barometer
+              hours_to_show: 48
+              entities:
+                - entity: sensor.local_barometric_pressure
+                  name: Barometric Pressure
+            - type: glance
+              entities:
+                - entity: sensor.snake_river_temp
             - type: custom:mini-graph-card
               name: Outside Temperature
               hours_to_show: 168
@@ -206,20 +209,11 @@ views:
 #            font_size: 75
 #            name: UV
 
-        - entity: media_player.plex_tv_un55nu8000
-          type: media-control
+#        - entity: media_player.plex_tv_un55nu8000
+#          type: media-control
 
-        - type: media-control
-          entity: media_player.sunroom_speaker
-
-        - type: custom:mini-graph-card
-          entities:
-            - entity: sensor.c3000_100nas_gateway_kb_sec_received
-              name: kB Received
-            - entity: sensor.c3000_100nas_gateway_kb_sec_sent
-              name: kB Sent
-          name: Internet
-          hours_to_show: 48
+#        - type: media-control
+#          entity: media_player.sunroom_speaker
 
   #      - entities:
   #          - zwave.aeon_labs_zw090_z_stick_gen5_us
@@ -254,3 +248,23 @@ views:
       - entity: sensor.aeon_labs_zw100_multisensor_6_burglar
 #      - entity: sensor.aeon_labs_zw100_multisensor_6_battery_level
       - entity: sun.sun
+
+  - path: network
+    title: Network
+    badges: []
+    cards:
+      - entities:
+          - entity: binary_sensor.wan
+          - entity: binary_sensor.gateway
+        show_header_toggle: false
+        title: Network
+        type: entities
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.c3000_100nas_gateway_kb_sec_received
+            name: kB Received
+          - entity: sensor.c3000_100nas_gateway_kb_sec_sent
+            name: kB Sent
+        name: Internet
+        hours_to_show: 48
+

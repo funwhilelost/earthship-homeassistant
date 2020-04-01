@@ -1,8 +1,34 @@
 # from `sensor:`
 
+# useful system monitors
+
+- platform: systemmonitor
+  resources:
+    - type: processor_use
+    - type: memory_use_percent
+    - type: last_boot
+
+- platform: uptime
+  unit_of_measurement: days
+
+# create an actual REST sensor for the little PHP scraper
+- platform: rest
+  name: Water Sensors
+  json_attributes:
+    - snake_river_temp
+  resource: http://sensors.funwhilelost.com/water.php
+  value_template: '{{ value_json.snake_river_temp }}'
+
 # https://community.home-assistant.io/t/sun-values-not-valid/89398/2
 - platform: template
   sensors:
+    # Snake River from the scraper
+    snake_river_temp:
+      friendly_name: 'Snake River Temperature'
+      value_template: '{{ states.sensor.water_sensors.attributes["snake_river_temp"] }}'
+      icon_template: mdi:waves
+      unit_of_measurement: '°F'
+
     # Sunset & Sunrise
     next_sunrise:
       friendly_name: Sunrise

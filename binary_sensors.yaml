@@ -1,0 +1,22 @@
+- platform: ping
+  host: 8.8.8.8
+  name: WAN
+  scan_interval: 60
+
+- platform: ping
+  host: 192.168.0.1
+  name: Gateway
+  scan_interval: 60
+
+- platform: template
+  sensors:
+    sun_up:
+      friendly_name: "Sun is up"
+      value_template: >-
+        {{ state_attr('sun.sun', 'elevation')|float > 0 }}
+    kitchen_motion:
+      friendly_name: "Kitchen motion"
+      device_class: motion
+      value_template: >-
+        {{ states('sensor.aeon_labs_zw100_multisensor_6_burglar')|float > 0 }}
+

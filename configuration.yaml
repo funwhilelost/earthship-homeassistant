@@ -34,23 +34,11 @@ weather:
     api_key: !secret darksky_api_key
     name: Earth Ship
 
-binary_sensor:
-  - platform: template
-    sensors:
-      sun_up:
-        friendly_name: "Sun is up"
-        value_template: >-
-          {{ state_attr('sun.sun', 'elevation')|float > 0 }}
-      kitchen_motion:
-        friendly_name: "Kitchen motion"
-        device_class: motion
-        value_template: >-
-          {{ states('sensor.aeon_labs_zw100_multisensor_6_burglar')|float > 0 }}
-
 homeassistant:
   customize: !include customize.yaml
   packages: !include_dir_named packages
 
+binary_sensor: !include binary_sensors.yaml
 sensor: !include sensors.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
