@@ -262,7 +262,9 @@ views:
       - type: glance
         entities:
           - entity: sensor.uptime
-            name: Uptime
+            name: HA Uptime
+          - entity: sensor.server_uptime
+            name: Server Uptime
         theme: default
         title: Server
       - type: custom:mini-graph-card
