@@ -1,1 +1,15 @@
-[]
+- id: '1587688541465'
+  alias: Alert on Door Open
+  description: ''
+  trigger:
+  - entity_id: sensor.kitchen_door
+    from: Closed
+    platform: state
+    to: Open
+  condition: []
+  action:
+  - data:
+      media_content_id: http://192.168.0.14:8123/local/bell.mp3
+      media_content_type: audio/mp3
+    entity_id: media_player.sunroom_speaker
+    service: media_player.play_media
