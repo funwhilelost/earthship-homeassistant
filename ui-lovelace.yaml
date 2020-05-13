@@ -21,7 +21,6 @@ views:
     cards:
       - type: vertical-stack
         cards:
-
         - aspect_ratio: 0%
           camera_image: camera.geovision_matrix
           camera_view: live
@@ -33,39 +32,46 @@ views:
 
         - type: horizontal-stack
           cards:
-          - type: glance
-            title: Doors
-            columns: 1
-            entities:
-              - entity: sensor.kitchen_door
-                name: Kitchen Door
-                show_state: false
-                show_last_changed: true
-              - entity: sensor.porch_door
-                name: Porch Door
-                show_state: false
-                show_last_changed: true
-
-          - type: 'custom:home-feed-card' # https://github.com/gadgetchnnel/lovelace-home-feed-card
-            title: Home Feed
-            show_empty: true
-            id_filter: ^home_feed_.*
-            max_item_count: 7
-            compact_mode: true
-            entities:
-              - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
-                # name: Me
-                include_history: false
-                # max_history: 5
-                remove_repeats: true
-                more_info_on_tap: true
-              - entity: weather.earth_ship
-              - entity: sun.sun
-              - entity: sensor.kitchen_door
-                name: Kitchen Door
-              - entity: sensor.porch_door
-                name: Porch Door
-              - entity: binary_sensor.kitchen_motion
+          - type: vertical-stack
+            cards:
+              - type: iframe
+                url: https://embed.windy.com/embed2.html?lat=46.671&lon=-117.506&zoom=11&level=surface&overlay=wind&menu=&message=&marker=&calendar=12&pressure=&type=map&location=coordinates&detail=true&detailLat=46.671&detailLon=-117.506&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1
+                # <iframe width="650" height="450" src="https://embed.windy.com/embed2.html?lat=46.629&lon=-117.506&zoom=11&level=surface&overlay=wind&menu=&message=&marker=&calendar=12&pressure=&type=map&location=coordinates&detail=true&detailLat=46.671&detailLon=-117.506&radarRange=-1" frameborder="0"></iframe>
+                aspect_ratio: 90%
+          - type: vertical-stack
+            cards:
+              - type: glance
+                title: Doors
+                columns: 2
+                entities:
+                  - entity: sensor.kitchen_door
+                    name: Kitchen Door
+                    show_state: false
+                    show_last_changed: true
+                  - entity: sensor.porch_door
+                    name: Porch Door
+                    show_state: false
+                    show_last_changed: true
+              - type: 'custom:home-feed-card' # https://github.com/gadgetchnnel/lovelace-home-feed-card
+                title: Home Feed
+                show_empty: true
+                id_filter: ^home_feed_.*
+                max_item_count: 7
+                compact_mode: true
+                entities:
+                  - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
+                    # name: Me
+                    include_history: false
+                    # max_history: 5
+                    remove_repeats: true
+                    more_info_on_tap: true
+                  - entity: weather.earth_ship
+                  - entity: sun.sun
+                  - entity: sensor.kitchen_door
+                    name: Kitchen Door
+                  - entity: sensor.porch_door
+                    name: Porch Door
+                  - entity: binary_sensor.kitchen_motion
 
         - type: horizontal-stack
           cards:
@@ -73,34 +79,49 @@ views:
             cards:
             - entity: weather.earth_ship
               type: weather-forecast
-            - type: entities
-              title: Sun
-              show_header_toggle: false
+            - type: custom:mini-graph-card
+              name: Wind Speed
+              lower_bound: 0
+              upper_bound: 30
+              hours_to_show: 48
               entities:
-                - entity: sun.sun
-                - entity: sensor.next_sunrise
-                  name: "Next Sunrise:"
-                  icon: mdi:weather-sunset-up
-                - entity: sensor.next_sunset
-                  name: "Next Sunset:"
-                  icon: mdi:weather-sunset-down
-                - entity: sensor.solar_angle
-                  name: "Sun Angle:"
-                  icon: mdi:angle-acute
+                - entity: sensor.local_wind_speed
+                  name: Wind Speed
+              color_thresholds:
+                - value: 10
+                  color: "#aaffaa"
+                - value: 15
+                  color: "#33ff33"
+                - value: 22
+                  color: "#ff3333"
+            - type: custom:mini-graph-card
+              name: Wind Angle
+              lower_bound: 0
+              upper_bound: 360
+              hours_to_show: 48
+              entities:
+                - entity: sensor.local_wind_bearing
+                  name: Wind Angle
+                  show_line: false
+                  show_points: true
+                  show_legend: false
+
           - type: vertical-stack
             cards:
             - type: custom:mini-graph-card
               name: Local Barometer
-              hours_to_show: 48
+              hours_to_show: 168
               entities:
                 - entity: sensor.local_barometric_pressure
                   name: Barometric Pressure
-            - type: glance
+            - type: custom:mini-graph-card
               entities:
                 - entity: sensor.snake_river_temp
             - type: custom:mini-graph-card
               name: Outside Temperature
               hours_to_show: 168
+              points_per_hour: 0.1
+              hour24: true
               group_by: date
               entities:
                 - entity: sensor.local_temperature
@@ -149,31 +170,6 @@ views:
                 legend: false
               name: Humidity
               hours_to_show: 72
-            - type: custom:mini-graph-card
-              name: Local Wind
-              lower_bound: 0
-              upper_bound: 30
-              lower_bound_secondary: 0
-              upper_bound_secondary: 360
-              hours_to_show: 48
-              entities:
-                - entity: sensor.local_wind_speed
-                  name: Wind Speed
-                - color: gray
-                  entity: sensor.local_wind_bearing
-                  name: Wind Angle
-                  show_line: false
-                  show_points: true
-                  show_legend: false
-                  y_axis: secondary
-              color_thresholds:
-                - value: 10
-                  color: "#aaffaa"
-                - value: 15
-                  color: "#33ff33"
-                - value: 22
-                  color: "#ff3333"
-
 
 #        # https://github.com/kalkih/mini-graph-card
 #        - type: custom:mini-graph-card
@@ -223,6 +219,48 @@ views:
   #        title: Z-Wave
   #        type: entities
 
+  - path: camera
+    title: Cameras
+    panel: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - aspect_ratio: 4:3
+            camera_image: camera.lawn
+            camera_view: live
+            entities: []
+            entity: camera.lawn
+            title: Lawn
+            type: picture-glance
+          - aspect_ratio: 4:3
+            camera_image: camera.pond
+            camera_view: live
+            entities: []
+            entity: camera.pond
+            title: Pond
+            type: picture-glance
+          - aspect_ratio: 16:9
+            camera_image: camera.front_door
+            camera_view: live
+            entities: []
+            entity: camera.front_door
+            title: Front Door
+            type: picture-glance
+          - aspect_ratio: 4:3
+            camera_image: camera.driveway
+            camera_view: live
+            entities: []
+            entity: camera.driveway
+            title: Driveway
+            type: picture-glance
+          - aspect_ratio: 4:3
+            camera_image: camera.backyard
+            camera_view: live
+            entities: []
+            entity: camera.backyard
+            title: Backyard
+            type: picture-glance
+
   - path: other
     title: Other
     cards:
@@ -232,6 +270,21 @@ views:
         hours_to_show: 48
         name: Home Temperature
         type: sensor
+      - type: entities
+        title: Sun
+        show_header_toggle: false
+        entities:
+          - entity: sun.sun
+          - entity: sensor.next_sunrise
+            name: "Next Sunrise:"
+            icon: mdi:weather-sunset-up
+          - entity: sensor.next_sunset
+            name: "Next Sunset:"
+            icon: mdi:weather-sunset-down
+          - entity: sensor.solar_angle
+            name: "Sun Angle:"
+            icon: mdi:angle-acute
+
     badges:
       - entity: binary_sensor.updater
 #      - entity: binary_sensor.aeon_labs_zw100_multisensor_6_sensor
@@ -297,3 +350,20 @@ views:
             yellow: 50
           theme: default
           type: gauge
+      - type: horizontal-stack
+        cards:
+        - entity: sensor.disk_use_percent
+          max: 100
+          min: 0
+          name: Disk
+          severity:
+            green: 0
+            red: 90
+            yellow: 50
+          theme: default
+          type: gauge
+        - name: Network I/O
+          type: custom:mini-graph-card
+          icon: mdi:server
+          entities:
+            - sensor.throughput_network_in
