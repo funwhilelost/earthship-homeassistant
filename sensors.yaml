@@ -7,6 +7,29 @@
     - type: processor_use
     - type: memory_use_percent
     - type: last_boot
+    - type: disk_use_percent
+    - type: load_1m
+    - type: throughput_network_in
+
+- platform: command_line
+  name: Linux version
+  command: "cat /proc/version"
+  value_template: '{{value|truncate(30,True)}}'
+
+- platform: command_line
+  name: Disk Ops
+  command: "iostat -d /dev/sda -m | sed '1d;2d;3d;5d' | awk '{ print $2 }'"
+  # value_template: '{{value}}'
+
+- platform: command_line
+  name: Disk Read
+  unit_of_measurement: 'MB/s'
+  command: "iostat -d /dev/sda -m | sed '1d;2d;3d;5d' | awk '{ print $3 }'"
+
+- platform: command_line
+  name: Disk Write
+  unit_of_measurement: 'MB/s'
+  command: "iostat -d /dev/sda -m | sed '1d;2d;3d;5d' | awk '{ print $4 }'"
 
 - platform: uptime
   unit_of_measurement: days

@@ -350,20 +350,11 @@ views:
             yellow: 50
           theme: default
           type: gauge
+      - entity: sensor.load_1m
+        type: gauge
       - type: horizontal-stack
         cards:
-        - entity: sensor.disk_use_percent
-          max: 100
-          min: 0
-          name: Disk
-          severity:
-            green: 0
-            red: 90
-            yellow: 50
-          theme: default
-          type: gauge
-        - name: Network I/O
-          type: custom:mini-graph-card
-          icon: mdi:server
-          entities:
-            - sensor.throughput_network_in
+          - entity: sensor.disk_read
+            type: gauge
+          - entity: sensor.disk_write
+            type: gauge
