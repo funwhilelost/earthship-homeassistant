@@ -42,6 +42,12 @@ frontend:
 lovelace:
   mode: yaml
 
+calendar:
+  - platform: caldav
+    username: funwhilelost
+    password: !secret caldav_password
+    url: https://nextcloud.funwhilelost.com/remote.php/dav/principals/users/funwhilelost/
+
 # Text to speech
 tts:
   - platform: google_translate

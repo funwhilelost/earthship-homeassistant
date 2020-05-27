@@ -34,53 +34,6 @@ views:
 
         - type: horizontal-stack
           cards:
-          - type: vertical-stack
-            cards:
-              - type: iframe
-                url: https://embed.windy.com/embed2.html?lat=46.671&lon=-117.506&zoom=11&level=surface&overlay=wind&menu=&message=&marker=&calendar=12&pressure=&type=map&location=coordinates&detail=true&detailLat=46.671&detailLon=-117.506&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1
-                # <iframe width="650" height="450" src="https://embed.windy.com/embed2.html?lat=46.629&lon=-117.506&zoom=11&level=surface&overlay=wind&menu=&message=&marker=&calendar=12&pressure=&type=map&location=coordinates&detail=true&detailLat=46.671&detailLon=-117.506&radarRange=-1" frameborder="0"></iframe>
-                aspect_ratio: 90%
-          - type: vertical-stack
-            cards:
-              - type: glance
-                title: Doors
-                columns: 2
-                entities:
-                  - entity: sensor.kitchen_door
-                    name: Kitchen Door
-                    show_state: false
-                    show_last_changed: true
-                  - entity: sensor.porch_door
-                    name: Porch Door
-                    show_state: false
-                    show_last_changed: true
-              - type: 'custom:home-feed-card' # https://github.com/gadgetchnnel/lovelace-home-feed-card
-                title: Home Feed
-                show_empty: true
-                id_filter: ^home_feed_.*
-                max_item_count: 7
-                compact_mode: true
-                entities:
-                  - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
-                    # name: Me
-                    include_history: false
-                    # max_history: 5
-                    remove_repeats: true
-                    more_info_on_tap: true
-                  - entity: weather.earth_ship
-                  - entity: sun.sun
-                  - entity: sensor.kitchen_door
-                    name: Kitchen Door
-                  - entity: sensor.porch_door
-                    name: Porch Door
-                  - entity: binary_sensor.kitchen_motion
-
-        - type: horizontal-stack
-          cards:
-          - type: vertical-stack
-            cards:
-            - type: weather-forecast            
-              entity: weather.earth_ship
             - type: custom:lovelace-darksky-card
               entity_current_conditions: sensor.dark_sky_icon
               entity_temperature: sensor.dark_sky_temperature
@@ -120,33 +73,47 @@ views:
               entity_pop_3: sensor.dark_sky_precip_probability_3d
               entity_pop_4: sensor.dark_sky_precip_probability_4d
               entity_pop_5: sensor.dark_sky_precip_probability_5d
-            - type: custom:mini-graph-card
-              name: Wind Speed
-              lower_bound: 0
-              upper_bound: 30
-              hours_to_show: 48
-              entities:
-                - entity: sensor.local_wind_speed
-                  name: Wind Speed
-              color_thresholds:
-                - value: 10
-                  color: "#aaffaa"
-                - value: 15
-                  color: "#33ff33"
-                - value: 22
-                  color: "#ff3333"
-            - type: custom:mini-graph-card
-              name: Wind Angle
-              lower_bound: 0
-              upper_bound: 360
-              hours_to_show: 48
-              entities:
-                - entity: sensor.local_wind_bearing
-                  name: Wind Angle
-                  show_line: false
-                  show_points: true
-                  show_legend: false
+            - type: vertical-stack
+              cards:
+                - type: glance
+                  title: Doors
+                  columns: 2
+                  entities:
+                    - entity: sensor.kitchen_door
+                      name: Kitchen Door
+                      show_state: false
+                      show_last_changed: true
+                    - entity: sensor.porch_door
+                      name: Porch Door
+                      show_state: false
+                      show_last_changed: true
+                - type: 'custom:home-feed-card' # https://github.com/gadgetchnnel/lovelace-home-feed-card
+                  title: Home Feed
+                  show_empty: true
+                  id_filter: ^home_feed_.*
+                  max_item_count: 7
+                  compact_mode: true
+                  entities:
+                    - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
+                      # name: Me
+                      include_history: false
+                      # max_history: 5
+                      remove_repeats: true
+                      more_info_on_tap: true
+                    - entity: weather.earth_ship
+                    - entity: sun.sun
+                    - entity: sensor.kitchen_door
+                      name: Kitchen Door
+                    - entity: sensor.porch_door
+                      name: Porch Door
+                    - entity: binary_sensor.kitchen_motion
 
+        - type: horizontal-stack
+          cards:
+#          - type: vertical-stack
+#            cards:
+#              - type: weather-forecast            
+#                entity: weather.earth_ship
           - type: vertical-stack
             cards:
             - type: custom:mini-graph-card
@@ -259,6 +226,45 @@ views:
   #          - zwave.unknown_node_7
   #        title: Z-Wave
   #        type: entities
+
+  - path: weather
+    title: Weather
+    panel: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: iframe
+            url: https://embed.windy.com/embed2.html?lat=46.671&lon=-117.506&zoom=11&level=surface&overlay=wind&menu=&message=&marker=&calendar=12&pressure=&type=map&location=coordinates&detail=true&detailLat=46.671&detailLon=-117.506&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1
+            # <iframe width="650" height="450" src="https://embed.windy.com/embed2.html?lat=46.629&lon=-117.506&zoom=11&level=surface&overlay=wind&menu=&message=&marker=&calendar=12&pressure=&type=map&location=coordinates&detail=true&detailLat=46.671&detailLon=-117.506&radarRange=-1" frameborder="0"></iframe>
+            aspect_ratio: 90%
+          - type: custom:mini-graph-card
+            name: Wind Speed
+            lower_bound: 0
+            upper_bound: 30
+            hours_to_show: 48
+            entities:
+              - entity: sensor.local_wind_speed
+                name: Wind Speed
+            color_thresholds:
+              - value: 10
+                color: "#aaffaa"
+              - value: 15
+                color: "#33ff33"
+              - value: 22
+                color: "#ff3333"
+          - type: custom:mini-graph-card
+            name: Wind Angle
+            lower_bound: 0
+            upper_bound: 360
+            hours_to_show: 48
+            entities:
+              - entity: sensor.local_wind_bearing
+                name: Wind Angle
+                show_line: false
+                show_points: true
+                show_legend: false
+
+
 
   - path: camera
     title: Cameras
