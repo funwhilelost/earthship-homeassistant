@@ -41,6 +41,7 @@ frontend:
 # load the ui config from ui-lovelace.yaml
 lovelace:
   mode: yaml
+  resources: !include_dir_merge_list lovelace/resources
 
 calendar:
   - platform: caldav
