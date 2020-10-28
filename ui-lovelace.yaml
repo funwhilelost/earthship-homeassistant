@@ -1,11 +1,5 @@
 title: Earth Ship
 
-custom_header:
-  compact_mode: true
-  options_hide: true
-#  kiosk_mode: true # completely hides to header: you can add ?disable_ch to the url to get it back
-#  footer_mode: true
-
 views:
   - path: default_view
     title: Home
@@ -79,12 +73,8 @@ views:
                       show_last_changed: true
             - type: vertical-stack
               cards:
-                - type: custom:calendar-card
+                - type: calendar
                   title: "Birthdays"
-                  progressBar: false
-                  dateTopFormat: "MMMM DD"
-                  numberOfDays: 30
-                  fullDayEventText:
                   entities:
                     - calendar.contact_birthdays
                 - type: 'custom:home-feed-card' # https://github.com/gadgetchnnel/lovelace-home-feed-card
