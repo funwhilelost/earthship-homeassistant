@@ -125,6 +125,11 @@ views:
             - type: custom:mini-graph-card
               entities:
                 - entity: sensor.snake_river_temp
+              hours_to_show: 168
+#            - type: custom:mini-graph-card
+#              entities:
+#                - entity: sensor.lake_washington_temp
+#              hours_to_show: 168
             - type: custom:mini-graph-card
               name: Outside Temperature
               hours_to_show: 168
@@ -148,7 +153,7 @@ views:
             cards:
             # https://github.com/kalkih/mini-graph-card
             - type: custom:mini-graph-card
-              lower_bound: 0
+              # lower_bound: 0
               entities:
                 - entity: sensor.aeon_labs_zw100_multisensor_6_temperature
                   name: Inside
